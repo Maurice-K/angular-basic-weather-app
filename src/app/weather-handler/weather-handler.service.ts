@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment'
 @Injectable()
 export class WeatherHandlerService {
     private apiKey = environment.weatherStackAPIKey
-    private baseUrl = 'http://api.weatherstack.com/current';
+    private baseUrl = 'https://api.weatherstack.com/current';
 
     constructor(private http: HttpClient, private adapter: WeatherAdapter) {}
 
