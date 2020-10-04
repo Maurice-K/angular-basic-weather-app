@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { exhaustMap, map as rxMap, switchMap, take, tap} from 'rxjs/operators';
 import { Weather, WeatherAdapter } from '../shared/models/weather.model';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class WeatherHandlerService {
-    private apiKey = '79b1566ccbca23f3824e7b06347daca9'
+    private apiKey = environment.weatherStackAPIKey
     private baseUrl = 'http://api.weatherstack.com/current';
 
     constructor(private http: HttpClient, private adapter: WeatherAdapter) {}
