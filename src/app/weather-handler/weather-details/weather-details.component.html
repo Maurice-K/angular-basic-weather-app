@@ -1,0 +1,14 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            {{ weather?.location }}
+        </mat-card-title>
+        <mat-card-subtitle>
+            <img [src]="weather?.weatherIcon" alt="">
+            <p>Description {{ weather?.weatherDescription }}</p>
+            <p>Temperature: {{ weather?.temperature }}</p> 
+            <p>Feels Like: {{ weather?.feelsLike }}</p>
+        </mat-card-subtitle>
+    </mat-card-header>
+    Simple Card
+</mat-card>
