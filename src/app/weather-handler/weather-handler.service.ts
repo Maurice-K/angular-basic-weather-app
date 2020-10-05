@@ -12,8 +12,7 @@ export class WeatherHandlerService {
     public weatherDetailBehaviorSubject = new BehaviorSubject<string>('New York');
 
     private apiKey = environment.weatherStackAPIKey
-    private baseUrl = 'http://api.weatherstack.com/current';
-    private autocompleteUrl = 'http://api.weatherstack.com/autocomplete'
+    private baseUrl = 'https://api.weatherstack.com/current';
 
     constructor(private http: HttpClient, private adapter: WeatherAdapter) {}
 
