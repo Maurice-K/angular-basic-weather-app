@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { WeatherHandlerService } from '../weather-handler.service';
 
+// DUMMY COMPONENT
 @Component({
   selector: 'weather-search',
   templateUrl: './weather-search.component.html',
@@ -16,9 +17,8 @@ export class WeatherSearchComponent implements OnInit {
 
   }
 
-  public onWeatherSearchSubmit() {
-    this.weatherHandlerService.setCurrentWeatherDetails('Chicago');
-    console.log('Submit');
+  public onWeatherSearchSubmit(weatherForm: NgForm) {
+    this.weatherHandlerService.setCurrentWeatherDetails(weatherForm.value.weatherSearch);
+    weatherForm.reset()
   }
-
 }

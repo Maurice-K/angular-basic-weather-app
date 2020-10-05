@@ -5,6 +5,7 @@ import { Tile } from '../shared/interface'
 import { Weather } from '../shared/models/weather.model';
 import { WeatherHandlerService } from './weather-handler.service';
 import { WEATHER_HANDLER } from './../shared/constants'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -16,30 +17,44 @@ import { WEATHER_HANDLER } from './../shared/constants'
 export class WeatherHandlerComponent implements OnInit, OnDestroy {
 
   public weather: Weather;
+  public weatherCards: Weather[];
+
   private weatherHandlerSubscription$: Subscription;
 
   title: string = WEATHER_HANDLER.TITLE;
-  tiles: Tile[] = [
-    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
-    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
-    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
-    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
-  ];
 
-  constructor(private weatherHandlerService: WeatherHandlerService) { }
+  constructor(private weatherHandlerService: WeatherHandlerService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.weatherCards = this.weatherHandlerService.weatherCards;
+
     // Initial Load
     this.weatherHandlerSubscription$ = this.weatherHandlerService.weatherDetail$.subscribe({
-      next: data => this.weather = data,
-      error: (error) => console.log(`There was a ${error}`),
+      next: (data) => {
+        if (data) {
+          this.weatherCards.unshift(data);
+        } else {
+          return
+        }
+      },
+      error: (error) => { 
+        this.snackBar.open(`There was a ${error}`, '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
+        console.log(`There was a ${error}`)
+       },
       complete: () => console.log('Completed Weather Lookup')
     })
-
   }
 
   ngOnDestroy(): void {
     this.weatherHandlerSubscription$.unsubscribe()
+  }
+
+  public weatherTrackBy(index, weather) {
+    return weather.location;    
   }
 
 }
