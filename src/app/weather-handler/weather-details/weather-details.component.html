@@ -1,14 +1,17 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>
-            {{ weather?.location }}
-        </mat-card-title>
-        <mat-card-subtitle>
-            <img [src]="weather?.weatherIcon" alt="">
-            <p>Description {{ weather?.weatherDescription }}</p>
-            <p>Temperature: {{ weather?.temperature }}</p> 
-            <p>Feels Like: {{ weather?.feelsLike }}</p>
-        </mat-card-subtitle>
-    </mat-card-header>
-    Simple Card
-</mat-card>
+<div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img [src]="weather?.weatherIcon" class="card-img" alt="No Picture Available">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ weather?.location }}</h5>
+          <p class="card-text">{{ weather?.weatherDescription }}</p>
+          <p class="card-text">Temperature: {{ weather?.temperature }}</p>
+          <p class="card-text">Feels Like: {{ weather?.feelsLike }}</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+</div>
+  

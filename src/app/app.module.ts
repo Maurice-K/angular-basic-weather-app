@@ -5,18 +5,18 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { WeatherHandlerComponent } from './weather-handler/weather-handler.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatCardModule } from '@angular/material/card';
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { WeatherSearchComponent } from './weather-handler/weather-search/weather-search.component';
 import { WeatherDetailsComponent } from './weather-handler/weather-details/weather-details.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.route';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -28,12 +28,13 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
     RouterModule.forRoot(AppRoutes),
     HttpClientModule,
     BrowserAnimationsModule,
-    MatGridListModule,
-    MatCardModule,
     MatAutocompleteModule,
+    MatSnackBarModule,
     MatInputModule,
     MatButtonModule
   ],

@@ -1,31 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { exhaustMap, map as rxMap, switchMap, take, tap} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, exhaustMap, map as rxMap, switchMap, take, tap} from 'rxjs/operators';
 import { Weather, WeatherAdapter } from '../shared/models/weather.model';
 import { environment } from '../../environments/environment'
 
 @Injectable()
 export class WeatherHandlerService {
+
+    public weatherCards: Weather[] = [];
+    public weatherDetailBehaviorSubject = new BehaviorSubject<string>('New York');
+
     private apiKey = environment.weatherStackAPIKey
     private baseUrl = 'http://api.weatherstack.com/current';
+    private autocompleteUrl = 'http://api.weatherstack.com/autocomplete'
 
     constructor(private http: HttpClient, private adapter: WeatherAdapter) {}
 
-    public weatherDetailBehaviorSubject = new BehaviorSubject<string>('New York');
     public weatherDetail$ = this.weatherDetailBehaviorSubject.asObservable().pipe(
+        tap((data) => { 
+            console.log(data) 
+        }),
         switchMap(data => this.getCurrentWeatherDetails(data))
     )
 
     public setCurrentWeatherDetails(city: string) {
-        this.weatherDetailBehaviorSubject.next(city)
+        this.weatherDetailBehaviorSubject.next(city)        
     }   
     
     public getCurrentWeatherDetails(city: string): Observable<Weather> | Observable<any> {
         return this.http.get(`${this.baseUrl}?access_key=${this.apiKey}&query=${city}`).pipe(
             tap(data => console.log('Before using rxMap', data)),
             rxMap((data: any) => {
-                if (data) {
+                if (data.location) {
                     // Minimizing the data we pass over.
                     let weatherObj  = {
                         location: data.location.name ? data.location.name : null ,
@@ -35,8 +42,6 @@ export class WeatherHandlerService {
                         weatherIcon: data.current.weather_icons[0] ? data.current.weather_icons[0] : null,
                     }
                     return this.adapter.adapt(weatherObj)
-                } else {
-                    return Observable.throw(error => console.log(`Error ${error}`))
                 }
             }),
             tap(data => console.log('After using rxMap w/adapter', data))
