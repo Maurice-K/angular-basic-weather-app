@@ -2,7 +2,6 @@ const express = require('express');
 
 const app = express()
 
-
 app.use(express.static('./dist/angular'));
 
 app.get('/*', function(req, res) {
